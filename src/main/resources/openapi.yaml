@@ -23,7 +23,7 @@ paths:
       tags:
         - spacecraft
       summary: Search all ships
-      operationId: getAllShips
+      operationId: findAllShips
       responses:
         '200':
           description: successful operation
@@ -45,14 +45,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Spacecraft'
+              $ref: '#/components/schemas/SpacecraftCommand'
       responses:
         '201':
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Spacecraft'
+        '400':
+          description: bad request
   /space/ships/{idShip}:
     get:
       tags:
@@ -65,8 +63,7 @@ paths:
           description: 'The identifier that needs to be fetched. '
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
       responses:
         '200':
           description: successful operation
@@ -89,21 +86,20 @@ paths:
           description: identifier that need to be updated
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
       requestBody:
         description: Update an existent ship in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Spacecraft'
+              $ref: '#/components/schemas/SpacecraftCommand'
       responses:
         default:
           description: successful operation
     delete:
       tags:
         - spacecraft
-      summary: Delete ship
+      summary: Delete a ship
       description: identifier that need to be deleted.
       operationId: deleteShipById
       parameters:
@@ -112,8 +108,8 @@ paths:
           description: The name that needs to be deleted
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            minimum: 1
       responses:
         '400':
           description: Invalid identifier supplied
@@ -132,7 +128,8 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
+            pattern: '^[\w\s\W]{3,64}$'
+            nullable: false
       responses:
         '200':
           description: successful operation
@@ -152,9 +149,19 @@ components:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
-          example: 3c0a764a-7764-4bb2-b7d9-1df0239629c5
+          type: integer
+          example: 1
         name:
           type: string
-          example: Apolo
+          example: 'Apolo'
+        active:
+          type: boolean
+          example: true
+    SpacecraftCommand:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: '^[\w\s\W]{3,64}$'
+          nullable: false
+          example: 'Apolo'

@@ -1,2 +1,39 @@
+server:
+  servlet.context-path: /
+  port: 8080
+
 spring:
   application.name: Spacecrafts
+  datasource:
+    url: jdbc:h2:mem:sc_db
+    username: guest
+    password: changeIt
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2.console:
+    path: /h2-console
+    enabled: true
+    settings.trace: false
+    settings.web-allow-others: true
+
+openapi:
+  swaggerW2MTravelOpenAPI30:
+    base-path: /api/v1
+
+springdoc:
+  packagesToScan: travel.w2m.techproof.web
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+    use-root-path: true
+  cache:
+    disabled: true
+
+logging:
+  level:
+    root: ERROR
+    org.springframework: ERROR
+    travel.w2m.techproof: INFO
+  pattern.console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){blue} %clr(%5level){faint} %clr(---){faint} %-40.40clr(%logger{0}.%M){blue} %clr(:){red} %clr(%msg){faint}%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"

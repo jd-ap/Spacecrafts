@@ -10,20 +10,20 @@ de naves espaciales de series y películas.
 Este mantenimiento debe permitir:
 
 *[ ] Consultar todas las naves utilizando paginación.
-*[ ] Consultar una única nave por id.
+*[x] Consultar una única nave por id.
 *[ ] Consultar todas las naves que contienen, en su nombre, el valor de un parámetro enviado en la petición. Por ejemplo, si enviamos “wing” devolverá “x-wing”.
-*[ ] Crear una nueva nave.
-*[ ] Modificar una nave.
-*[ ] Eliminar una nave.
+*[x] Crear una nueva nave.
+*[x] Modificar una nave.
+*[x] Eliminar una nave.
 *[ ] Test unitario de como mínimo de una clase.
 *[ ] Desarrollar un @Aspect que añada una línea de log cuando nos piden una nave con un id negativo.
-*[ ] Gestión centralizada de excepciones.
+*[x] Gestión centralizada de excepciones.
 *[ ] Utilizar cachés de algún tipo.
 
 \
 Puntos a tener en cuenta:
-*[ ] Las naves se deben guardar en una base de datos. Puede ser, por ejemplo, H2 en memoria.
-*[ ] La prueba se debe presentar en un repositorio de Git. No hace falta que esté publicado. Se puede enviar comprimido en un único archivo.
+*[x] Las naves se deben guardar en una base de datos. Puede ser, por ejemplo, H2 en memoria.
+*[x] La prueba se debe presentar en un repositorio de Git. No hace falta que esté publicado. Se puede enviar comprimido en un único archivo.
   
 \
 Puntos opcionales de mejora:

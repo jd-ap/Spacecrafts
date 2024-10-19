@@ -114,7 +114,9 @@
 							<generatorName>spring</generatorName>
 							<apiPackage>travel.w2m.techproof.web</apiPackage>
 							<modelPackage>travel.w2m.techproof.model</modelPackage>
-							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<!--supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate-->
+							<modelNameSuffix>Dto</modelNameSuffix>
+							<skipOperationExample>true</skipOperationExample>
 							<configOptions>
 								<openApiNullable>false</openApiNullable>
 								<documentationProvider>springdoc</documentationProvider>
@@ -123,13 +125,6 @@
 								<skipDefaultInterface>true</skipDefaultInterface>
 								<useJakartaEe>true</useJakartaEe>
 								<useTags>true</useTags>
-								<!--
-                                <useSpringBoot3>true</useSpringBoot3>
-								<delegatePattern>false</delegatePattern>
-                                <annotationLibrary>swagger2</annotationLibrary>
-                                <singleContentTypes>true</singleContentTypes>
-                                <useSpringController>false</useSpringController>
-                                -->
 							</configOptions>
 							<typeMappings>
 								<typeMapping>DateTime=LocalDateTime</typeMapping>
