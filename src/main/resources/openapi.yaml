@@ -1,0 +1,160 @@
+openapi: 3.0.3
+info:
+  title: Swagger W2M travel - OpenAPI 3.0
+  description: |-
+    ## Technical proof
+     API que permite hacer un mantenimiento CRUD de naves espaciales de series y películas.
+
+    * Consultar todas las naves utilizando paginación.
+    * Consultar una única nave por id.
+    * Consultar todas las naves que contienen, en su nombre, el valor de un parámetro enviado en la petición. Por ejemplo, si enviamos “wing” devolverá “x-wing”.
+    * Crear una nueva nave.
+    * Modificar una nave.
+    * Eliminar una nave.
+  version: 0.1.0-SNAPSHOT
+servers:
+  - url: https://localhost:8080/api/v1
+tags:
+  - name: spacecraft
+    description: Operations about spacecraft
+paths:
+  /space/ships:
+    get:
+      tags:
+        - spacecraft
+      summary: Search all ships
+      operationId: getAllShips
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Spacecraft'
+        '204':
+          description: successfully but your response has no content
+    post:
+      tags:
+        - spacecraft
+      summary: Create new ship
+      operationId: createShip
+      requestBody:
+        description: Created spacecraft object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spacecraft'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spacecraft'
+  /space/ships/{idShip}:
+    get:
+      tags:
+        - spacecraft
+      summary: Get ship by id
+      operationId: getShipById
+      parameters:
+        - name: idShip
+          in: path
+          description: 'The identifier that needs to be fetched. '
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spacecraft'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Ship not found
+    put:
+      tags:
+        - spacecraft
+      summary: Update ship
+      operationId: updateShipById
+      parameters:
+        - name: idShip
+          in: path
+          description: identifier that need to be updated
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Update an existent ship in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spacecraft'
+      responses:
+        default:
+          description: successful operation
+    delete:
+      tags:
+        - spacecraft
+      summary: Delete ship
+      description: identifier that need to be deleted.
+      operationId: deleteShipById
+      parameters:
+        - name: idShip
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '400':
+          description: Invalid identifier supplied
+        '404':
+          description: Ship not found
+  /space/ships/name/{nameShip}:
+    get:
+      tags:
+        - spacecraft
+      summary: Get ships list by a name
+      operationId: getShipsByName
+      parameters:
+        - name: nameShip
+          in: path
+          description: 'The name that needs to be fetched. '
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Spacecraft'
+        '400':
+          description: Invalid name supplied
+        '404':
+          description: Ship not found
+components:
+  schemas:
+    Spacecraft:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 3c0a764a-7764-4bb2-b7d9-1df0239629c5
+        name:
+          type: string
+          example: Apolo

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>travel.w2m.techproof</groupId>
+	<artifactId>Spacecrafts</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<name>Spacecrafts</name>
+	<description>API that allows CRUD maintenance of spacecraft from series and movies.</description>
+
+	<properties>
+		<java.version>21</java.version>
+		<jdk.version>${java.version}</jdk.version>
+		<release.version>${java.version}</release.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- custom properties -->
+		<springdoc-openapi.version>1.8.0</springdoc-openapi.version>
+		<jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+
+		<openapi-generator-maven-plugin.version>7.9.0</openapi-generator-maven-plugin.version>
+
+		<!-- force vulnerable version upgrade -->
+		<xmlunit2.version>2.10.0</xmlunit2.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- openapi -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-common</artifactId>
+			<version>${springdoc-openapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc-openapi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
+
+		<!-- tools -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>
+								${project.basedir}/src/main/resources/openapi.yaml
+							</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>travel.w2m.techproof.web</apiPackage>
+							<modelPackage>travel.w2m.techproof.model</modelPackage>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<configOptions>
+								<openApiNullable>false</openApiNullable>
+								<documentationProvider>springdoc</documentationProvider>
+								<interfaceOnly>true</interfaceOnly>
+								<requestMappingMode>api_interface</requestMappingMode>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<useJakartaEe>true</useJakartaEe>
+								<useTags>true</useTags>
+								<!--
+                                <useSpringBoot3>true</useSpringBoot3>
+								<delegatePattern>false</delegatePattern>
+                                <annotationLibrary>swagger2</annotationLibrary>
+                                <singleContentTypes>true</singleContentTypes>
+                                <useSpringController>false</useSpringController>
+                                -->
+							</configOptions>
+							<typeMappings>
+								<typeMapping>DateTime=LocalDateTime</typeMapping>
+								<typeMapping>Date=LocalDate</typeMapping>
+							</typeMappings>
+							<importMappings>
+								<importMapping>LocalDateTime=java.time.LocalDateTime</importMapping>
+								<importMapping>LocalDate=java.time.LocalDate</importMapping>
+							</importMappings>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
