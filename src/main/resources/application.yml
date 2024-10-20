@@ -1,5 +1,10 @@
+info.app:
+  name: @project.name@
+  description: @project.description@
+  version: v@project.version@
+
 server:
-  servlet.context-path: /
+  servlet.context-path: /api/v1
   port: 8080
 
 spring:
@@ -18,12 +23,14 @@ spring:
     settings.trace: false
     settings.web-allow-others: true
 
-openapi:
-  swaggerW2MTravelOpenAPI30:
-    base-path: /api/v1
+openapi.swaggerW2MTravelOpenAPI30.base-path: /
+jakarta.validation.constraints.Min.message: El valor debe ser mayor a 1
 
 springdoc:
-  packagesToScan: travel.w2m.techproof.web
+  packagesToScan:
+    - travel.w2m.techproof.web
+    - travel.w2m.techproof.model
+    - travel.w2m.techproof.controller
   swagger-ui:
     operationsSorter: alpha
     tagsSorter: alpha

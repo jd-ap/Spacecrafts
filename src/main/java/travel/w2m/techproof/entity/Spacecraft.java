@@ -2,19 +2,19 @@ package travel.w2m.techproof.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "SPACECRAFTS")
 @NamedQuery(name = "Spacecraft.findAll", query = "FROM Spacecraft s WHERE s.active")
-@NamedQuery(name = "Spacecraft.findById", query = "FROM Spacecraft s WHERE s.id = :id and s.active")
-@NamedQuery(name = "Spacecraft.findAllByName", query = "FROM Spacecraft s WHERE s.name like '%:name%' and s.active")
+@NamedQuery(name = "Spacecraft.findById", query = "FROM Spacecraft s WHERE s.id = :id")
+@NamedQuery(name = "Spacecraft.findAllByName", query = "FROM Spacecraft s WHERE LOWER(s.name) LIKE CONCAT('%',LOWER(:name),'%') and s.active")
 @NamedQuery(name = "Spacecraft.deleteById", query = "UPDATE Spacecraft s SET s.active = false WHERE s.id = :id")
 public class Spacecraft {
     @Id
@@ -23,5 +23,7 @@ public class Spacecraft {
     private Integer id;
     @Column(nullable = false, length = 64)
     private String name;
-    private boolean active;
+    @Builder.Default
+    private boolean active = Boolean.TRUE;
+
 }

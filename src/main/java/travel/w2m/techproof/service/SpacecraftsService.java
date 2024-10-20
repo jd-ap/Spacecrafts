@@ -1,5 +1,7 @@
 package travel.w2m.techproof.service;
 
+import jakarta.persistence.PersistenceException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,10 +35,18 @@ public class SpacecraftsService {
         return spacecraftsRepository.save(spacecraft);
     }
 
+    @Transactional
     public Spacecraft modifyOneById(Integer id, Spacecraft spacecraft) {
-        return spacecraftsRepository.save(spacecraft);
+        return spacecraftsRepository.findById(id)
+                .map(Spacecraft::toBuilder)
+                .map(it -> {
+                    it.name(spacecraft.getName());
+                    return it.build();
+                }).map(spacecraftsRepository::save)
+                .orElseThrow(PersistenceException::new);
     }
 
+    @Transactional
     public void deleteOneById(Integer id) {
         spacecraftsRepository.deleteById(id);
     }

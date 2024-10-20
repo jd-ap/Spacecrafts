@@ -2,7 +2,6 @@ package travel.w2m.techproof.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,10 +9,9 @@ import travel.w2m.techproof.model.SpacecraftCommandDto;
 import travel.w2m.techproof.model.SpacecraftDto;
 import travel.w2m.techproof.service.SpacecraftsService;
 import travel.w2m.techproof.web.SpacecraftApi;
-import travel.w2m.techproof.web.SpacecraftMapper;
+import travel.w2m.techproof.web.WebMapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,8 +22,9 @@ public class SpacecraftsController implements SpacecraftApi {
 
     @Override
     public ResponseEntity<Void> createShip(SpacecraftCommandDto spacecraftCommandDto) {
-        var spacecraft = SpacecraftMapper.requestBodyToEntity(spacecraftCommandDto);
+        var spacecraft = WebMapper.requestBodyToEntity(spacecraftCommandDto);
         var created = spacecraftsService.createOne(spacecraft);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -36,41 +35,34 @@ public class SpacecraftsController implements SpacecraftApi {
     }
 
     @Override
-    public ResponseEntity<List<SpacecraftDto>> findAllShips() {
-        var pageable = Pageable.ofSize(1);
+    public ResponseEntity<List<SpacecraftDto>> findAllShips(Integer pageNumber, Integer pageSize, List<String> sort) {
+        var pageable = WebMapper.newPageRequest(pageNumber, pageSize, sort);
         var page = spacecraftsService.findAll(pageable);
-        var spacecrafts = page.get().map(SpacecraftMapper::entityToResponseBody).toList();
-        var headers = Map.of("total-elements", page.getTotalElements(),
-                "total-pages", page.getTotalPages(),
-                "page-number", page.getNumber(),
-                "page-size", page.getNumberOfElements());
-        return ResponseEntity.ok(spacecrafts);
+
+        return WebMapper.toPageResponse(page);
     }
 
     @Override
     public ResponseEntity<SpacecraftDto> getShipById(Integer idShip) {
         return spacecraftsService.findOneById(idShip)
-                .map(SpacecraftMapper::entityToResponseBody)
+                .map(WebMapper::entityToResponseBody)
                 .map(ResponseEntity::ok)
-                .get();
+                .orElseThrow();
     }
 
     @Override
-    public ResponseEntity<List<SpacecraftDto>> getShipsByName(String nameShip) {
-        var pageable = Pageable.ofSize(1);
+    public ResponseEntity<List<SpacecraftDto>> getShipsByName(String nameShip, Integer pageNumber, Integer pageSize, List<String> sort) {
+        var pageable = WebMapper.newPageRequest(pageNumber, pageSize, sort);
         var page = spacecraftsService.findAllByNameThatContain(nameShip, pageable);
-        var spacecrafts = page.get().map(SpacecraftMapper::entityToResponseBody).toList();
-        var headers = Map.of("total-elements", page.getTotalElements(),
-                "total-pages", page.getTotalPages(),
-                "page-number", page.getNumber(),
-                "page-size", page.getNumberOfElements());
-        return ResponseEntity.ok(spacecrafts);
+
+        return WebMapper.toPageResponse(page);
     }
 
     @Override
     public ResponseEntity<Void> updateShipById(Integer idShip, SpacecraftCommandDto spacecraftCommandDto) {
-        var spacecraft = SpacecraftMapper.requestBodyToEntity(spacecraftCommandDto);
+        var spacecraft = WebMapper.requestBodyToEntity(spacecraftCommandDto);
         var updated = spacecraftsService.modifyOneById(idShip, spacecraft);
+
         return ResponseEntity.ok().build();
     }
 

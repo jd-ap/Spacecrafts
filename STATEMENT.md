@@ -9,14 +9,14 @@ de naves espaciales de series y películas.
 \
 Este mantenimiento debe permitir:
 
-*[ ] Consultar todas las naves utilizando paginación.
+*[x] Consultar todas las naves utilizando paginación.
 *[x] Consultar una única nave por id.
-*[ ] Consultar todas las naves que contienen, en su nombre, el valor de un parámetro enviado en la petición. Por ejemplo, si enviamos “wing” devolverá “x-wing”.
+*[x] Consultar todas las naves que contienen, en su nombre, el valor de un parámetro enviado en la petición. Por ejemplo, si enviamos “wing” devolverá “x-wing”.
 *[x] Crear una nueva nave.
 *[x] Modificar una nave.
 *[x] Eliminar una nave.
 *[ ] Test unitario de como mínimo de una clase.
-*[ ] Desarrollar un @Aspect que añada una línea de log cuando nos piden una nave con un id negativo.
+*[x] Desarrollar un @Aspect que añada una línea de log cuando nos piden una nave con un id negativo.
 *[x] Gestión centralizada de excepciones.
 *[ ] Utilizar cachés de algún tipo.
 

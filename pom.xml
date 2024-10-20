@@ -26,7 +26,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- custom properties -->
+		<validation-api.version>3.1.0</validation-api.version>
 		<springdoc-openapi.version>1.8.0</springdoc-openapi.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
 		<jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
 
 		<openapi-generator-maven-plugin.version>7.9.0</openapi-generator-maven-plugin.version>
@@ -54,18 +56,19 @@
 		<!-- openapi -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-common</artifactId>
-			<version>${springdoc-openapi.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>${springdoc-openapi.version}</version>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>${validation-api.version}</version>
 		</dependency>
 
 		<!-- tools -->
@@ -114,7 +117,7 @@
 							<generatorName>spring</generatorName>
 							<apiPackage>travel.w2m.techproof.web</apiPackage>
 							<modelPackage>travel.w2m.techproof.model</modelPackage>
-							<!--supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate-->
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 							<modelNameSuffix>Dto</modelNameSuffix>
 							<skipOperationExample>true</skipOperationExample>
 							<configOptions>
