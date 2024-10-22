@@ -22,6 +22,8 @@ spring:
     enabled: true
     settings.trace: false
     settings.web-allow-others: true
+  cache:
+    cache-names: allShips
 
 openapi.swaggerW2MTravelOpenAPI30.base-path: /
 jakarta.validation.constraints.Min.message: El valor debe ser mayor a 1

@@ -19,7 +19,7 @@ Este mantenimiento debe permitir:
 * [x] Test unitario de como mínimo de una clase.
 * [x] Desarrollar un @Aspect que añada una línea de log cuando nos piden una nave con un id negativo.
 * [x] Gestión centralizada de excepciones.
-* [ ] Utilizar cachés de algún tipo.
+* [x] Utilizar cachés de algún tipo.
 
 \
 Puntos a tener en cuenta:

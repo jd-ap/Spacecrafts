@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "SPACECRAFTS")
-@NamedQuery(name = "Spacecraft.findAll", query = "FROM Spacecraft s WHERE s.active")
+@NamedQuery(name = "Spacecraft.findAllActives", query = "FROM Spacecraft s WHERE s.active")
 @NamedQuery(name = "Spacecraft.findById", query = "FROM Spacecraft s WHERE s.id = :id")
 @NamedQuery(name = "Spacecraft.findAllByName", query = "FROM Spacecraft s WHERE LOWER(s.name) LIKE CONCAT('%',LOWER(:name),'%') and s.active")
 @NamedQuery(name = "Spacecraft.deleteById", query = "UPDATE Spacecraft s SET s.active = false WHERE s.id = :id")

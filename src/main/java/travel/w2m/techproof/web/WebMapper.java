@@ -1,5 +1,7 @@
 package travel.w2m.techproof.web;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WebMapper {
 
     private static final Function<Page<Spacecraft>, List<SpacecraftDto>> collectingResponse = page ->
@@ -72,5 +75,11 @@ public class WebMapper {
         var headers = generatePaginationHeaders.apply(page);
 
         return new ResponseEntity<>(spacecrafts, headers, HttpStatus.OK);
+    }
+
+    public static ResponseEntity<Void> toLocalizedResponseWithId(String uriLocation, HttpStatus httpStatus) {
+        var headers = new HttpHeaders();
+        headers.add("Location", uriLocation);
+        return new ResponseEntity<>(headers, httpStatus);
     }
 }

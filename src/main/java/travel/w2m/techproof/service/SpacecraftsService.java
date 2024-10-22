@@ -20,7 +20,7 @@ public class SpacecraftsService {
     private final SpacecraftsRepository spacecraftsRepository;
 
     public Page<Spacecraft> findAll(Pageable pageable) {
-        return spacecraftsRepository.findAll(pageable);
+        return spacecraftsRepository.findAllActives(pageable);
     }
 
     public Optional<Spacecraft> findOneById(Integer id) {
@@ -38,12 +38,13 @@ public class SpacecraftsService {
     @Transactional
     public Spacecraft modifyOneById(Integer id, Spacecraft spacecraft) {
         return spacecraftsRepository.findById(id)
+                .filter(Spacecraft::isActive)
                 .map(Spacecraft::toBuilder)
                 .map(it -> {
                     it.name(spacecraft.getName());
                     return it.build();
                 }).map(spacecraftsRepository::save)
-                .orElseThrow(PersistenceException::new);
+                .orElseThrow();
     }
 
     @Transactional

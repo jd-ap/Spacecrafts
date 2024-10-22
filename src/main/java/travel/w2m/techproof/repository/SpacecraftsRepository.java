@@ -9,6 +9,8 @@ import travel.w2m.techproof.entity.Spacecraft;
 @Repository
 public interface SpacecraftsRepository extends JpaRepository<Spacecraft, Integer> {
 
+    Page<Spacecraft> findAllActives(Pageable pageable);
+
     Page<Spacecraft> findAllByName(String name, Pageable pageable);
 
 }

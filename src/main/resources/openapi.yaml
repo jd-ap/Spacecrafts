@@ -51,7 +51,7 @@ paths:
               pattern: '^\w+[:a|:d]?$'
       responses:
         '200':
-          description: successful operation
+          description: 'successful operation'
           content:
             application/json:
               schema:
@@ -59,7 +59,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Spacecraft'
         '204':
-          description: successfully but your response has no content
+          description: 'successfully but your response is empty'
+        '400':
+          description: 'wrong parameters or request body'
+        '404':
+          description: 'Ship not found'
+        '500':
+          description: 'generic error'
     post:
       tags:
         - spacecraft
@@ -73,9 +79,13 @@ paths:
               $ref: '#/components/schemas/SpacecraftCommand'
       responses:
         '201':
-          description: successful operation
+          description: 'successful operation'
         '400':
-          description: bad request
+          description: 'wrong parameters or request body'
+        '404':
+          description: 'Ship not found'
+        '500':
+          description: 'generic error'
   /space/ships/{idShip}:
     get:
       tags:
@@ -91,15 +101,17 @@ paths:
             type: integer
       responses:
         '200':
-          description: successful operation
+          description: 'successful operation'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Spacecraft'
         '400':
-          description: Invalid id supplied
+          description: 'wrong parameters or request body'
         '404':
-          description: Ship not found
+          description: 'Ship not found'
+        '500':
+          description: 'generic error'
     put:
       tags:
         - spacecraft
@@ -120,8 +132,14 @@ paths:
             schema:
               $ref: '#/components/schemas/SpacecraftCommand'
       responses:
-        default:
-          description: successful operation
+        '200':
+          description: 'successful operation'
+        '400':
+          description: 'wrong parameters or request body'
+        '404':
+          description: 'Ship not found'
+        '500':
+          description: 'generic error'
     delete:
       tags:
         - spacecraft
@@ -137,10 +155,12 @@ paths:
             type: integer
             minimum: 1
       responses:
+        '204':
+          description: 'Ship not found'
         '400':
-          description: Invalid identifier supplied
-        '404':
-          description: Ship not found
+          description: 'invalid identifier supplied'
+        '500':
+          description: 'generic error'
   /space/ships/name/{nameShip}:
     get:
       tags:
@@ -183,7 +203,7 @@ paths:
               pattern: '^\w+[:a|:d]?$'
       responses:
         '200':
-          description: successful operation
+          description: 'successful operation'
           content:
             application/json:
               schema:
@@ -191,9 +211,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Spacecraft'
         '400':
-          description: Invalid name supplied
+          description: 'invalid name supplied'
         '404':
-          description: Ship not found
+          description: 'Ship not found'
+        '500':
+          description: 'generic error'
 components:
   schemas:
     Spacecraft:
