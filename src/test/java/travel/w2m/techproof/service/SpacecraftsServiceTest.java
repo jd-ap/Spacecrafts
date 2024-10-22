@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SpacecraftsServiceTest {
@@ -68,6 +67,74 @@ class SpacecraftsServiceTest {
 
     @Test
     void givenFindAllByNameThatContain_thenReturnsList() {
+        //given
+        String name = "wing";
+        Pageable pageable = PageRequest.of(0,1);
+        var xWingShip = Spacecraft.builder().id(0).name("x-wing").build();
+        var expected = new PageImpl<>(List.of(xWingShip), pageable, 1);
 
+        when(spacecraftsRepository.findAllByName(anyString(), any(Pageable.class)))
+                .thenReturn(expected);
+
+        //when
+        var result = spacecraftsService.findAllByNameThatContain(name, pageable);
+
+        //then
+        assertFalse(result.isEmpty());
+        assertFalse(result.hasNext());
+        assertFalse(result.hasPrevious());
+        assertEquals(1, result.getTotalPages());
+        assertEquals(xWingShip, result.stream().findFirst().get());
+    }
+
+    @Test
+    void givenCreateOne_thenReturnsOne() {
+        //given
+        var ship = Spacecraft.builder().name("x-wing").build();
+        var expected = Spacecraft.builder().id(0).name("x-wing").build();
+
+        when(spacecraftsRepository.save(any(Spacecraft.class))).thenReturn(expected);
+
+        //when
+        var result = spacecraftsService.createOne(ship);
+
+        //then
+        assertEquals(expected, result);
+        verify(spacecraftsRepository, times(1)).save(any());
+    }
+
+    @Test
+    void givenModifyOneById_thenReturnsOne() {
+        //given
+        var idShip = 0;
+        var ship = Spacecraft.builder().name("x-wing").build();
+
+        var stored = Spacecraft.builder().id(idShip).name("gniw-x").active(Boolean.FALSE).build();
+        var expected = Spacecraft.builder().id(idShip).name("x-wing").active(Boolean.FALSE).build();
+
+        when(spacecraftsRepository.findById(anyInt())).thenReturn(Optional.of(stored));
+        when(spacecraftsRepository.save(any(Spacecraft.class))).thenReturn(expected);
+
+        //when
+        var result = spacecraftsService.modifyOneById(idShip, ship);
+
+        //then
+        assertEquals(expected, result);
+        verify(spacecraftsRepository, times(1)).findById(idShip);
+        verify(spacecraftsRepository, times(1)).save(any());
+    }
+
+    @Test
+    void givenDeleteOne_thenReturnsOK() {
+        //given
+        var idShip = 0;
+
+        doNothing().when(spacecraftsRepository).deleteById(anyInt());
+
+        //when
+        spacecraftsService.deleteOneById(idShip);
+
+        //then
+        verify(spacecraftsRepository, times(1)).deleteById(idShip);
     }
 }
